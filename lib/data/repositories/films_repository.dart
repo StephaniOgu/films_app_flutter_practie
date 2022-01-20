@@ -6,15 +6,15 @@ class FilmsRepository {
 
   final Dio client;
 
-  Future<List<FilmModel>> getFilms() async {
+  Future<List<Film>> getFilms() async {
     try {
       const url =
           'https://api.themoviedb.org/3/trending/movie/day?api_key=d4042a814f7ec085951eebff4536a5c6';
       final response = await client.get(url);
 
-      return List<FilmModel>.of(
-        response.data['results'].map<FilmModel>(
-          (json) => FilmModel(
+      return List<Film>.of(
+        response.data['results'].map<Film>(
+          (json) => Film(
             id: json['id'],
             title: json['title'],
             releaseDate: json['release_date'],

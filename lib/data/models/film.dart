@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 @immutable
-class FilmModel extends Equatable {
-  const FilmModel({
+class Film extends Equatable {
+  const Film({
     required this.id,
     required this.title,
     required this.releaseDate,

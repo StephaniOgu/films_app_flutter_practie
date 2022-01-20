@@ -16,11 +16,13 @@ part '../states/loaded_state.dart';
 part '../states/loading_state.dart';
 
 class FilmsListCubit extends Cubit<FilmsListBaseState> {
-  FilmsListCubit(this.filmsRepository) : super(InitialFilmsListState());
+  FilmsListCubit({required this.filmsRepository}) : super(InitialFilmsListState()) {
+    loadFilmsList();
+  }
 
   final FilmsRepository filmsRepository;
 
-  void getTrendingMovies() async {
+  void loadFilmsList() async {
     try {
       emit(LoadingFilmsListState());
       final films = await filmsRepository.getFilms();
