@@ -1,21 +1,44 @@
+import 'package:films_app_practie/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const FilmsApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class FilmsApp extends StatefulWidget {
+  const FilmsApp({Key? key}) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() {
+    return _FilmsAppState();
+  }
+}
+
+class _FilmsAppState extends State<FilmsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: FilmsAppTheme.lightTheme,
+      darkTheme: FilmsAppTheme.darkTheme,
+      home: Scaffold(
+        appBar: AppBar(
+          actions: _buildActions(),
+        ),
+        body: Center(
+          child: Container(
+            child: ElevatedButton(onPressed: () {  }, child: null,),
+          ),
+        ),
       ),
-      home: const Text('Flutter Demo Home Page'),
     );
   }
 }
 
+List<Widget> _buildActions() {
+  return <Widget>[
+    IconButton(
+      icon: const Icon(Icons.search),
+      onPressed: () {},
+    ),
+  ];
+}
