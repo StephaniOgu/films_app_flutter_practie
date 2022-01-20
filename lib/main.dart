@@ -25,9 +25,7 @@ class _FilmsAppState extends State<FilmsApp> {
           actions: _buildActions(),
         ),
         body: Center(
-          child: Container(
-            child: ElevatedButton(onPressed: () {  }, child: null,),
-          ),
+          child: ElevatedButton(onPressed: () {  }, child: null,),
         ),
       ),
     );

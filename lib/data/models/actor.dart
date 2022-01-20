@@ -1,43 +1,38 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
-class Actor extends Equatable {
-  const Actor({
+@immutable
+class FilmStaffMember extends Equatable {
+  const FilmStaffMember({
+    required this.id,
     required this.name,
-    required this.sex,
+    required this.gender,
     required this.birthday,
-    required this.place,
+    required this.placeOfBirth,
     required this.about,
+    required this.urlImage,
+    required this.position,
   });
 
+  final String id;
   final String name;
-  final String sex;
+  final String gender;
   final DateTime birthday;
-  final String place;
+  final String placeOfBirth;
   final String about;
+  final String urlImage;
+  final String position;
 
   @override
-  List<Object> get props => [
+  List<Object> get props =>
+      [
+        id,
         name,
-        sex,
+        gender,
         birthday,
         birthday,
-        place,
+        placeOfBirth,
         about,
+        urlImage,
       ];
-
-  Actor copyWith({
-    String? name,
-    String? sex,
-    DateTime? birthday,
-    String? place,
-    String? about,
-  }) {
-    return Actor(
-      name: name ?? this.name,
-      sex: sex ?? this.sex,
-      birthday: birthday ?? this.birthday,
-      place: place ?? this.place,
-      about: about ?? this.about,
-    );
-  }
 }
