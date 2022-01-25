@@ -1,31 +1,32 @@
 import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/models/film.dart';
+import 'package:films_app_practie/data/repositories/values_repositorty.dart';
 
 class FilmsRepository {
-  const FilmsRepository({required this.client});
+  FilmsRepository({required this.client});
 
   final Dio client;
 
   Future<List<Film>> getFilms() async {
     try {
-      const url =
-          'https://api.themoviedb.org/3/trending/movie/day?api_key=d4042a814f7ec085951eebff4536a5c6';
+      final url =
+          '${ValuesRepository.domainName}/trending/movie/day?api_key=${ValuesRepository.apiKey}';
       final response = await client.get(url);
 
       return List<Film>.of(
         response.data['results'].map<Film>(
           (json) => Film(
-            id: json['id'],
-            title: json['title'],
+            id: json['id'].toString(),
+            title: json['title'].toString(),
             releaseDate: json['release_date'],
-            overview: json['overview'],
+            overview: json['overview'].toString(),
             usersFeedback: json['vote_average'],
             urlImage: 'https://image.tmdb.org/t/p/w185${json['poster_path']}',
           ),
         ),
       );
-
-    } catch (e) {
+    }
+    catch (e) {
       rethrow;
     }
   }
