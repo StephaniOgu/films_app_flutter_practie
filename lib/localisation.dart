@@ -10,8 +10,20 @@ class FilmsLocalizations {
     );
   }
 
-  String get appTitle => "Films App";
-  //TODO: Add the screens names;
+  String get filmListScreenTitle => 'Now Popular';
+  String get searchTitle => 'Search';
+
+  String get filmDetailsUF => 'Users feedback';
+  String get filmDetailsYear => 'Year';
+  String get filmDetailsLength => 'Length';
+  String get filmDetailsOverview => 'Overview';
+
+  String get actorDetailsGender => 'Gender';
+  String get actorDetailsBirthday => 'Birthday';
+  String get actorDetailsPlace => 'Place';
+  String get actorDetailsAbout => 'About';
+
+  String get seeMoreBtnText => 'See more';
 }
 
 class FlutterBlocLocalizationsDelegate
@@ -25,5 +37,5 @@ class FlutterBlocLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      locale.languageCode.toLowerCase().contains("en");
+      locale.languageCode.toLowerCase().contains('en');
 }

@@ -17,7 +17,7 @@ class FilmStaffMember extends Equatable {
   final String id;
   final String name;
   final String gender;
-  final DateTime birthday;
+  final String birthday;
   final String placeOfBirth;
   final String about;
   final String urlImage;

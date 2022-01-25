@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/models/actor.dart';
+import 'package:films_app_practie/data/repositories/values_repositorty.dart';
 
 class ActorsRepository {
   ActorsRepository({
@@ -24,7 +25,7 @@ class ActorsRepository {
   Future<List<FilmStaffMember>> _getAllFilmStaffList(String filmId) async {
     try {
       final url =
-          'https://api.themoviedb.org/3/movie/$filmId/credits?api_key=d4042a814f7ec085951eebff4536a5c6';
+          '${ValuesRepository.domainName}/movie/$filmId/credits?api_key=${ValuesRepository.apiKey}';
       final response = await client.get(url);
 
       return List<FilmStaffMember>.of(
@@ -49,7 +50,7 @@ class ActorsRepository {
   Future<FilmStaffMember> getActorInfo(String actorId) async {
     try {
       var url =
-          'https://api.themoviedb.org/3/person/$actorId?api_key=d4042a814f7ec085951eebff4536a5c6&language=en-US';
+          '${ValuesRepository.domainName}/person/$actorId?api_key=${ValuesRepository.apiKey}&language=en-US';
       final response = await client.get(url);
 
       final actors = List<FilmStaffMember>.of(

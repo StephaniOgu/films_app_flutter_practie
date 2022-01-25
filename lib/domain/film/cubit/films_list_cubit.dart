@@ -17,8 +17,8 @@ part '../states/loaded_state.dart';
 
 part '../states/loading_state.dart';
 
-class FilmsListCubit extends Cubit<FilmBaseState> {
-  FilmsListCubit({
+class FilmsCubit extends Cubit<FilmBaseState> {
+  FilmsCubit({
     required this.film,
     required this.actorsRepository,
   }) : super(InitialFilmState()) {
