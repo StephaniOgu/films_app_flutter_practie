@@ -23,26 +23,20 @@ class _FilmsAppState extends State<FilmsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: FilmsAppTheme.lightTheme,
       darkTheme: FilmsAppTheme.darkTheme,
-      home: BlocProvider<FilmsListCubit>(
-        create: (context) => FilmsListCubit(
-          filmsRepository: FilmsRepository(
-            client: Dio(),
-          ),
-        ),
-        child: MoviesPage(),
-      ),
+      home: _buildBlocProvider(),
     );
   }
-}
 
-List<Widget> _buildActions() {
-  return <Widget>[
-    IconButton(
-      icon: const Icon(Icons.search),
-      onPressed: () {},
-    ),
-  ];
+  BlocProvider<FilmsListCubit> _buildBlocProvider() {
+    return BlocProvider<FilmsListCubit>(
+      create: (context) => FilmsListCubit(
+        filmsRepository: FilmsRepository(
+          client: Dio(),
+        ),
+      ),
+      child: MoviesPage(),
+    );
+  }
 }

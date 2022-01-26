@@ -10,20 +10,20 @@ class FilmsLocalizations {
     );
   }
 
-  String get filmListScreenTitle => 'Now Popular';
-  String get searchTitle => 'Search';
+  static String get filmListScreenTitle => 'Now Popular';
+  static String get searchTitle => 'Search';
 
-  String get filmDetailsUF => 'Users feedback';
-  String get filmDetailsYear => 'Year';
-  String get filmDetailsLength => 'Length';
-  String get filmDetailsOverview => 'Overview';
+  static String get filmDetailsUF => 'Users feedback';
+  static String get filmDetailsYear => 'Year';
+  static String get filmDetailsLength => 'Length';
+  static String get filmDetailsOverview => 'Overview';
 
-  String get actorDetailsGender => 'Gender';
-  String get actorDetailsBirthday => 'Birthday';
-  String get actorDetailsPlace => 'Place';
-  String get actorDetailsAbout => 'About';
+  static String get actorDetailsGender => 'Gender';
+  static String get actorDetailsBirthday => 'Birthday';
+  static String get actorDetailsPlace => 'Place';
+  static String get actorDetailsAbout => 'About';
 
-  String get seeMoreBtnText => 'See more';
+  static String get seeMoreBtnText => 'See more';
 }
 
 class FlutterBlocLocalizationsDelegate
