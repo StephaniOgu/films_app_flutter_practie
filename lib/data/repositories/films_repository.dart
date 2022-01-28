@@ -1,33 +1,51 @@
 import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/models/film.dart';
-import 'package:films_app_practie/data/repositories/values_repositorty.dart';
+import 'package:films_app_practie/data/repositories/values_repository.dart';
 
 class FilmsRepository {
-  FilmsRepository({required this.client});
+  FilmsRepository();
 
-  final Dio client;
+  Dio client = Dio();
 
-  Future<List<Film>> getFilms() async {
-    try {
-      final url =
-          '${ValuesRepository.domainName}/trending/movie/day?api_key=${ValuesRepository.apiKey}';
-      final response = await client.get(url);
+  Future<List<Film>> getFilms([String? searchQuery]) async {
+    if (searchQuery == null) {
+      try {
+        final url =
+            '${ValuesRepository.domainName}/trending/movie/day?api_key=${ValuesRepository.apiKey}';
+        final response = await client.get(url);
 
-      return List<Film>.of(
-        response.data['results'].map<Film>(
-          (json) => Film(
-            id: json['id'].toString(),
-            title: json['title'].toString(),
-            releaseDate: json['release_date'],
-            overview: json['overview'].toString(),
-            usersFeedback: json['vote_average'],
-            urlImage: 'https://image.tmdb.org/t/p/w185${json['poster_path']}',
-          ),
+        return getFilmsFromResponse(response);
+      } catch (e) {
+        rethrow;
+      }
+    } else {
+      try {
+        final url =
+            '${ValuesRepository.domainName}/search/movie?api_key=${ValuesRepository.apiKey}&query=$searchQuery';
+        final response = await client.get(url);
+
+        return getFilmsFromResponse(response);
+      } catch (e) {
+        rethrow;
+      }
+    }
+  }
+
+  List<Film> getFilmsFromResponse(var response) {
+    return List<Film>.of(
+      response.data['results'].map<Film>(
+        (json) => Film(
+          id: json['id'].toString(),
+          title: json['title'].toString(),
+          releaseDate: json['release_date'].toString(),
+          overview: json['overview'].toString(),
+          usersFeedback: json['vote_average'].toString(),
+          urlImage: '${json['poster_path']}'
+                  .contains('w185null')
+              ? 'https://www.farmingtonlibraries.org/sites/default/files/2021-07/Movie%20Night.png'
+              : 'https://image.tmdb.org/t/p/w185${json['poster_path']}',
         ),
-      );
-    }
-    catch (e) {
-      rethrow;
-    }
+      ),
+    );
   }
 }
