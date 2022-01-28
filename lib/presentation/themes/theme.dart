@@ -7,24 +7,20 @@ class FilmsAppTheme {
     final _textTheme = _themeData.textTheme;
 
     return ThemeData.dark().copyWith(
-      scaffoldBackgroundColor: AppColors.depthBlue,
-      appBarTheme: _appBarTheme(
-          appBarColor: AppColors.turquoise, textColor: AppColors.middleBlue),
+      scaffoldBackgroundColor: AppColors.deepBlue,
+      appBarTheme: _appBarTheme(appBarColor: AppColors.turquoise, textColor: AppColors.middleBlue),
       canvasColor: AppColors.surfaceBlue,
-      floatingActionButtonTheme:
-          _floatingActionButtonThemeData(AppColors.turquoise),
+      floatingActionButtonTheme: _floatingActionButtonThemeData(AppColors.turquoise),
       elevatedButtonTheme: _elevatedButtonThemeData(),
-      cardTheme: _cardTheme(cardColor: AppColors.deepBlue),
+
       textTheme: _textTheme.copyWith(
-        headline1: _textStyle(AppColors.deepBlue, 24),
+        headline1: _textStyle(AppColors.snowWhite, 24),
         headline2: _textStyle(AppColors.snowWhite, 18),
-        headline3: _textStyle(AppColors.headline3Dark, 16),
+        headline3: _textStyle(AppColors.headline3Dark, 18),
         headline4: _textStyle(AppColors.headline4Dark, 24),
-        headline5: _textStyle(AppColors.paleGreenWhite, 18),
-        headline6: _textStyle(AppColors.fluffyWhite, 18),
         subtitle1: _textStyle(AppColors.sunYellow, 18),
         subtitle2: _textStyle(AppColors.subtitle2Dark, 14),
-        bodyText1: _textStyle(AppColors.bodyText1Dark, 14),
+        bodyText1: _textStyle(AppColors.bodyText1Dark, 18),
         bodyText2: _textStyle(AppColors.sunYellow, 24),
       ),
     );
@@ -36,39 +32,24 @@ class FilmsAppTheme {
 
     return ThemeData.light().copyWith(
         scaffoldBackgroundColor: AppColors.shellWhite,
-        appBarTheme: _appBarTheme(
-            appBarColor: AppColors.sunYellow, textColor: AppColors.lightGray),
+        appBarTheme: _appBarTheme(appBarColor: AppColors.sunYellow, textColor: AppColors.lightGray),
         canvasColor: AppColors.fluffyWhite,
-        floatingActionButtonTheme:
-            _floatingActionButtonThemeData(AppColors.turquoise),
+        floatingActionButtonTheme: _floatingActionButtonThemeData(AppColors.turquoise),
         elevatedButtonTheme: _elevatedButtonThemeData(),
-        cardTheme: _cardTheme(cardColor: AppColors.white),
+
         textTheme: _textTheme.copyWith(
           headline1: _textStyle(AppColors.lightGray, 24),
           headline2: _textStyle(AppColors.lightGray, 18),
-          headline3: _textStyle(AppColors.lightGray, 16),
+          headline3: _textStyle(AppColors.lightGray, 18),
           headline4: _textStyle(AppColors.headline4Light, 24),
-          headline5: _textStyle(AppColors.sunYellow, 18),
-          headline6: _textStyle(AppColors.fluffyWhite, 18),
-          subtitle1: _textStyle(AppColors.paleGreenYellow, 18),
+          subtitle1: _textStyle(AppColors.sunYellow, 18),
           subtitle2: _textStyle(AppColors.subtitle2Light, 14),
-          bodyText1: _textStyle(AppColors.bodyText1Light, 14),
-          bodyText2: _textStyle(AppColors.sunYellow, 24),
-        ));
-  }
-
-  static CardTheme _cardTheme({required Color cardColor}) {
-    return CardTheme(
-      color: cardColor,
-      margin: const EdgeInsets.all(10.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
+          bodyText1: _textStyle(AppColors.bodyText1Light, 18),
+          bodyText2: _textStyle(AppColors.sunYellow, 24),)
     );
   }
 
-  static AppBarTheme _appBarTheme(
-      {required Color appBarColor, required Color textColor}) {
+  static AppBarTheme _appBarTheme({required Color appBarColor, required Color textColor}){
     return AppBarTheme(
       color: appBarColor,
       shape: const RoundedRectangleBorder(
@@ -83,8 +64,7 @@ class FilmsAppTheme {
     );
   }
 
-  static FloatingActionButtonThemeData _floatingActionButtonThemeData(
-      Color color) {
+  static FloatingActionButtonThemeData _floatingActionButtonThemeData(Color color) {
     return FloatingActionButtonThemeData(
       backgroundColor: color,
     );
@@ -94,7 +74,7 @@ class FilmsAppTheme {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         primary: AppColors.sunYellow,
-        onPrimary: AppColors.white,
+        onPrimary: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),

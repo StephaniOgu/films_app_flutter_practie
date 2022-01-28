@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/models/actor.dart';
-import 'package:films_app_practie/data/repositories/values_repository.dart';
+import 'package:films_app_practie/data/repositories/values_repositorty.dart';
 
 class ActorsRepository {
   ActorsRepository({

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/repositories/films_repository.dart';
 import 'package:films_app_practie/domain/films_list/cubit/films_list_cubit.dart';
 import 'package:films_app_practie/presentation/screens/films_list_page.dart';
@@ -22,19 +23,26 @@ class _FilmsAppState extends State<FilmsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Flutter Demo',
       theme: FilmsAppTheme.lightTheme,
       darkTheme: FilmsAppTheme.darkTheme,
-      home: _buildBlocProvider(),
-    );
-  }
-
-  BlocProvider<FilmsListCubit> _buildBlocProvider() {
-    return BlocProvider<FilmsListCubit>(
-      create: (context) => FilmsListCubit(
-        filmsRepository: FilmsRepository(
+      home: BlocProvider<FilmsListCubit>(
+        create: (context) => FilmsListCubit(
+          filmsRepository: FilmsRepository(
+            client: Dio(),
+          ),
         ),
+        child: MoviesPage(),
       ),
-      child: MoviesPage(),
     );
   }
+}
+
+List<Widget> _buildActions() {
+  return <Widget>[
+    IconButton(
+      icon: const Icon(Icons.search),
+      onPressed: () {},
+    ),
+  ];
 }
