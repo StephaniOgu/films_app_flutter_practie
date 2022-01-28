@@ -16,7 +16,8 @@ part '../states/loaded_state.dart';
 part '../states/loading_state.dart';
 
 class FilmsListCubit extends Cubit<FilmsListBaseState> {
-  FilmsListCubit({required this.filmsRepository}) : super(InitialFilmsListState()) {
+  FilmsListCubit({required this.filmsRepository})
+      : super(InitialFilmsListState()) {
     loadFilmsList();
   }
 
@@ -29,6 +30,16 @@ class FilmsListCubit extends Cubit<FilmsListBaseState> {
       emit(LoadedFilmsListState(films: films));
     } catch (e) {
       emit(ErrorFilmsListState(error: e.toString()));
+    }
+  }
+
+  void searchFilms(String? query) async {
+    try {
+      emit(LoadingFilmsListState());
+      final films = await filmsRepository.getFilms(query);
+      emit(LoadedFilmsListState(films: films));
+    } catch (e) {
+      loadFilmsList();
     }
   }
 }

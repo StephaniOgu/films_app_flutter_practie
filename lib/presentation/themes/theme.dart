@@ -18,11 +18,13 @@ class FilmsAppTheme {
       textTheme: _textTheme.copyWith(
         headline1: _textStyle(AppColors.deepBlue, 24),
         headline2: _textStyle(AppColors.snowWhite, 18),
-        headline3: _textStyle(AppColors.headline3Dark, 18),
+        headline3: _textStyle(AppColors.headline3Dark, 16),
         headline4: _textStyle(AppColors.headline4Dark, 24),
+        headline5: _textStyle(AppColors.paleGreenWhite, 18),
+        headline6: _textStyle(AppColors.fluffyWhite, 18),
         subtitle1: _textStyle(AppColors.sunYellow, 18),
         subtitle2: _textStyle(AppColors.subtitle2Dark, 14),
-        bodyText1: _textStyle(AppColors.bodyText1Dark, 18),
+        bodyText1: _textStyle(AppColors.bodyText1Dark, 14),
         bodyText2: _textStyle(AppColors.sunYellow, 24),
       ),
     );
@@ -44,18 +46,19 @@ class FilmsAppTheme {
         textTheme: _textTheme.copyWith(
           headline1: _textStyle(AppColors.lightGray, 24),
           headline2: _textStyle(AppColors.lightGray, 18),
-          headline3: _textStyle(AppColors.lightGray, 18),
+          headline3: _textStyle(AppColors.lightGray, 16),
           headline4: _textStyle(AppColors.headline4Light, 24),
-          subtitle1: _textStyle(AppColors.sunYellow, 18),
+          headline5: _textStyle(AppColors.sunYellow, 18),
+          headline6: _textStyle(AppColors.fluffyWhite, 18),
+          subtitle1: _textStyle(AppColors.paleGreenYellow, 18),
           subtitle2: _textStyle(AppColors.subtitle2Light, 14),
-          bodyText1: _textStyle(AppColors.bodyText1Light, 18),
+          bodyText1: _textStyle(AppColors.bodyText1Light, 14),
           bodyText2: _textStyle(AppColors.sunYellow, 24),
         ));
   }
 
   static CardTheme _cardTheme({required Color cardColor}) {
     return CardTheme(
-
       color: cardColor,
       margin: const EdgeInsets.all(10.0),
       shape: RoundedRectangleBorder(

@@ -16,7 +16,7 @@ class Film extends Equatable {
   final String title;
   final String releaseDate;
   final String overview;
-  final double usersFeedback;
+  final String usersFeedback;
   final String urlImage;
 
   @override

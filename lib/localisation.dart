@@ -9,8 +9,12 @@ class FilmsLocalizations {
       FilmsLocalizations,
     );
   }
+  static String get errorTitle => 'Sorry, something went wrong :(';
 
-  static String get filmListScreenTitle => 'Now Popular';
+  static String get filmListScreenTitle => '';
+  static String get filmListScreenHintText => 'Search film';
+
+  static String get filmListScreenLabel => 'Now Popular';
   static String get searchTitle => 'Search';
 
   static String get filmDetailsUF => 'Users feedback';

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/repositories/films_repository.dart';
 import 'package:films_app_practie/domain/films_list/cubit/films_list_cubit.dart';
 import 'package:films_app_practie/presentation/screens/films_list_page.dart';
@@ -33,7 +32,6 @@ class _FilmsAppState extends State<FilmsApp> {
     return BlocProvider<FilmsListCubit>(
       create: (context) => FilmsListCubit(
         filmsRepository: FilmsRepository(
-          client: Dio(),
         ),
       ),
       child: MoviesPage(),

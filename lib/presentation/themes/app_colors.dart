@@ -8,6 +8,8 @@ class AppColors{
   static Color get snowWhite => const Color.fromRGBO(238, 250, 252, 1);
   static Color get shellWhite => const Color.fromRGBO(246, 246, 246, 1);
   static Color get fluffyWhite => const Color.fromRGBO(251, 251, 253, 1);
+  static Color get paleGreenWhite => const Color.fromRGBO(202, 226, 221, 1);
+  static Color get paleGreenYellow => const Color.fromRGBO(248, 236, 204, 1);
   static Color get turquoise => const Color.fromRGBO(40, 146, 126, 1);
   static Color get surfaceBlue => const Color.fromRGBO(51, 51, 73, 1);
   static Color get middleBlue => const Color.fromRGBO(51, 51, 73, 1);
