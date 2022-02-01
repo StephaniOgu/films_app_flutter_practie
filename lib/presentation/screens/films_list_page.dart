@@ -13,30 +13,30 @@ class MoviesPage extends StatefulWidget {
 }
 
 class _MoviesPageState extends State<MoviesPage> {
+  late int _pageNumber;
+  late String? _query;
+  late bool _isLast;
+
+  late List<Widget> _filmsListNavigation;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: AppBar(
+        actions: [
+          _buildBigSizedBox(),
+          _buildSearchField(),
+          _buildBigSizedBox(),
+        ],
+      ),
       body: _buildBlocConsumer(),
-    );
-  }
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      actions: [
-        _buildBigSizedBox(),
-        _buildSearchField(),
-        _buildBigSizedBox(),
-        _buildSearchIcnBtn(),
-        _buildLittleSizedBox(),
-      ],
     );
   }
 
   Widget _buildBigSizedBox() {
     return const SizedBox(
       height: 10,
-      width: 60,
+      width: 100,
     );
   }
 
@@ -45,29 +45,16 @@ class _MoviesPageState extends State<MoviesPage> {
       child: TextField(
         style: Theme.of(context).textTheme.headline6,
         decoration: InputDecoration(
-            icon: const Icon(Icons.search),
-            hintText: FilmsLocalizations.filmListScreenHintText,
-            hintStyle: Theme.of(context).textTheme.headline5),
-        onChanged: (query) {
-          context.read<FilmsListCubit>().searchFilms(query);
+          icon: const Icon(Icons.search),
+          hintText: FilmsLocalizations.filmListScreenHintText,
+          hintStyle: Theme.of(context).textTheme.headline5,
+        ),
+        onSubmitted: (query) async {
+          context
+              .read<FilmsListCubit>()
+              .searchFilms(page: 1, query: query);
         },
       ),
-    );
-  }
-
-  IconButton _buildSearchIcnBtn() {
-    return IconButton(
-      onPressed: () {
-        context.read<FilmsListCubit>().loadFilmsList();
-      },
-      icon: const Icon(Icons.close),
-    );
-  }
-
-  SizedBox _buildLittleSizedBox() {
-    return const SizedBox(
-      height: 10,
-      width: 30,
     );
   }
 
@@ -81,6 +68,10 @@ class _MoviesPageState extends State<MoviesPage> {
           return _buildErrorScreen(state);
         } else if (state is LoadedFilmsListState) {
           final movies = state.films;
+          _isLast = state.isLast;
+          _query = state.query;
+          _pageNumber = state.page;
+          _filmsListNavigation = _getNavigation();
           return _buildLoadedScreen(movies!);
         } else {
           return Container();
@@ -96,7 +87,6 @@ class _MoviesPageState extends State<MoviesPage> {
   }
 
   Widget _buildErrorScreen(ErrorFilmsListState state) {
-    print(state.error);
     return Center(
         child: Text(
       FilmsLocalizations.errorTitle,
@@ -111,7 +101,7 @@ class _MoviesPageState extends State<MoviesPage> {
         _buildScreenTitle(),
         Expanded(
           child: _buildFilmsList(movies),
-        )
+        ),
       ],
     );
   }
@@ -128,34 +118,40 @@ class _MoviesPageState extends State<MoviesPage> {
 
   Widget _buildFilmsList(List<Film> movies) {
     return ListView.builder(
-      itemCount: movies.length,
-      itemBuilder: (context, index) => _buildFilmItem(movies[index]),
-      itemExtent: 150.0,
+      itemCount: movies.length + 1,
+      itemBuilder: (context, index) => _buildFilmItem(movies, index),
     );
   }
 
-  Widget _buildFilmItem(Film film) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Stack(
-        children: [
-          _buildFilmCard(film),
-          _buildFilmImage(film),
-        ],
-      ),
-    );
+  Widget _buildFilmItem(List<Film> films, int index) {
+    if (index < films.length) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Stack(
+          children: [
+            _buildFilmCard(films[index]),
+            _buildFilmImage(films[index]),
+          ],
+        ),
+      );
+    } else {
+      return _buildFilmsListNavigation();
+    }
   }
 
   Widget _buildFilmCard(Film film) {
-    return Card(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildBigSizedBox(),
-          _buildFilmInfo(film),
-          _buildFilmRating(film),
-        ],
+    return SizedBox(
+      height: 135,
+      child: Card(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildBigSizedBox(),
+            _buildFilmInfo(film),
+            _buildFilmRating(film),
+          ],
+        ),
       ),
     );
   }
@@ -194,11 +190,12 @@ class _MoviesPageState extends State<MoviesPage> {
   }
 
   Widget _buildFilmImage(Film film) {
-    if(film.urlImage.contains('w185null')) {
+    if (film.urlImage.contains('w185null')) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Image.network(
           'https://www.farmingtonlibraries.org/sites/default/files/2021-07/Movie%20Night.png',
+          height: 150,
         ),
       );
     }
@@ -206,7 +203,71 @@ class _MoviesPageState extends State<MoviesPage> {
       borderRadius: BorderRadius.circular(8.0),
       child: Image.network(
         film.urlImage,
+        height: 150,
       ),
     );
+  }
+
+  Widget _buildFilmsListNavigation() {
+    List<Widget> rowContaining = _filmsListNavigation;
+    if (_pageNumber == 1) {
+      rowContaining[0] = const SizedBox(width: 60);
+    } if (_isLast == true) {
+      rowContaining[rowContaining.length -1] = const SizedBox(width: 60);
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: rowContaining,
+    );
+  }
+
+  _buildPreviewPageBtn() {
+    return IconButton(
+      icon: const Icon(Icons.navigate_before),
+      color: Theme.of(context).splashColor,
+      onPressed: () {
+        context.read<FilmsListCubit>().searchFilms(page: _pageNumber - 1, query: _query);
+      },
+    );
+  }
+
+  Widget _buildPageNumber() {
+    return BlocConsumer<FilmsListCubit, FilmsListBaseState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+                alignment: Alignment.center,
+                width: 60,
+                height: 30,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).splashColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(5))),
+                child: Text(
+                  '$_pageNumber',
+                  style: Theme.of(context).textTheme.headline2,
+                )),
+          );
+        });
+  }
+
+  _buildNextPageBtn() {
+    return IconButton(
+      icon: const Icon(Icons.navigate_next),
+      color: Theme.of(context).splashColor,
+      onPressed: () {
+        context.read<FilmsListCubit>().searchFilms(page: _pageNumber + 1, query: _query);
+      },
+    );
+  }
+
+  List<Widget> _getNavigation(){
+    return [
+      _buildPreviewPageBtn(),
+      _buildPageNumber(),
+      _buildNextPageBtn(),
+    ];
   }
 }

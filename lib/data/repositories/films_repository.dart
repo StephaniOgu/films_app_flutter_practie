@@ -7,11 +7,11 @@ class FilmsRepository {
 
   Dio client = Dio();
 
-  Future<List<Film>> getFilms([String? searchQuery]) async {
+  Future<List<Film>> getFilms({String? searchQuery, required int page}) async {
     if (searchQuery == null) {
       try {
         final url =
-            '${ValuesRepository.domainName}/trending/movie/day?api_key=${ValuesRepository.apiKey}';
+            '${ValuesRepository.domainName}/trending/movie/day?api_key=${ValuesRepository.apiKey}&page=$page';
         final response = await client.get(url);
 
         return getFilmsFromResponse(response);
@@ -21,7 +21,7 @@ class FilmsRepository {
     } else {
       try {
         final url =
-            '${ValuesRepository.domainName}/search/movie?api_key=${ValuesRepository.apiKey}&query=$searchQuery';
+            '${ValuesRepository.domainName}/search/movie?api_key=${ValuesRepository.apiKey}&query=$searchQuery&page=$page';
         final response = await client.get(url);
 
         return getFilmsFromResponse(response);

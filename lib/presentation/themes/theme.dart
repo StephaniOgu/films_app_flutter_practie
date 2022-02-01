@@ -15,6 +15,7 @@ class FilmsAppTheme {
           _floatingActionButtonThemeData(AppColors.turquoise),
       elevatedButtonTheme: _elevatedButtonThemeData(),
       cardTheme: _cardTheme(cardColor: AppColors.deepBlue),
+      splashColor: AppColors.turquoise,
       textTheme: _textTheme.copyWith(
         headline1: _textStyle(AppColors.deepBlue, 24),
         headline2: _textStyle(AppColors.snowWhite, 18),
@@ -43,6 +44,7 @@ class FilmsAppTheme {
             _floatingActionButtonThemeData(AppColors.turquoise),
         elevatedButtonTheme: _elevatedButtonThemeData(),
         cardTheme: _cardTheme(cardColor: AppColors.white),
+        splashColor: AppColors.sunYellow,
         textTheme: _textTheme.copyWith(
           headline1: _textStyle(AppColors.lightGray, 24),
           headline2: _textStyle(AppColors.lightGray, 18),

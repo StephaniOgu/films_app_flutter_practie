@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:films_app_practie/data/models/actor.dart';
 import 'package:films_app_practie/data/models/film.dart';
 import 'package:films_app_practie/data/repositories/actors_repository.dart';
-import 'package:films_app_practie/data/repositories/films_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
