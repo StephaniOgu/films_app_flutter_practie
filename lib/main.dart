@@ -34,7 +34,7 @@ class _FilmsAppState extends State<FilmsApp> {
         filmsRepository: FilmsRepository(
         ),
       ),
-      child: MoviesPage(),
+      child: const MoviesPage(),
     );
   }
 }
