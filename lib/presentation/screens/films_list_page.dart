@@ -22,7 +22,7 @@ class _FilmsListPageState extends State<FilmsListPage> {
   late String? _query;
   late List<Film>? _films;
 
- late PageStorageKey _key;
+  late PageStorageKey _key;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _FilmsListPageState extends State<FilmsListPage> {
   Widget _buildBigSizedBox() {
     return const SizedBox(
       height: 10,
-      width: 100,
+      width: 50,
     );
   }
 
@@ -55,9 +55,9 @@ class _FilmsListPageState extends State<FilmsListPage> {
           hintStyle: Theme.of(context).textTheme.headline5,
         ),
         onSubmitted: (query) async {
-          if(query==''){
+          if (query == '') {
             context.read<FilmsListCubit>().loadFilmsList(page: 1);
-          } else{
+          } else {
             context.read<FilmsListCubit>().loadFilmsList(page: 1, query: query);
           }
         },
@@ -139,18 +139,19 @@ class _FilmsListPageState extends State<FilmsListPage> {
 
   Widget _buildFilmItem(int index) {
     return GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Stack(
-            children: [
-              _buildFilmCard(_films![index]),
-              _buildFilmImage(_films![index]),
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Stack(
+          children: [
+            _buildFilmCard(_films![index]),
+            _buildFilmImage(_films![index]),
+          ],
         ),
-        onTap: () {
-          widget.onFilmTap(_films![index]);
-        });
+      ),
+      onTap: () {
+        widget.onFilmTap(_films![index]);
+      },
+    );
   }
 
   Widget _buildFilmCard(Film film) {
@@ -161,7 +162,7 @@ class _FilmsListPageState extends State<FilmsListPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildBigSizedBox(),
+            const SizedBox(width: 100),
             _buildFilmInfo(film),
             _buildFilmRating(film),
           ],
@@ -204,15 +205,6 @@ class _FilmsListPageState extends State<FilmsListPage> {
   }
 
   Widget _buildFilmImage(Film film) {
-    if (film.urlImage.contains('w185null')) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-        child: Image.network(
-          'https://www.farmingtonlibraries.org/sites/default/files/2021-07/Movie%20Night.png',
-          height: 150,
-        ),
-      );
-    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.0),
       child: Image.network(

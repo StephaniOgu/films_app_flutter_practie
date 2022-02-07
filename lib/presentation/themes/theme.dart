@@ -17,7 +17,7 @@ class FilmsAppTheme {
       cardTheme: _cardTheme(cardColor: AppColors.deepBlue),
       splashColor: AppColors.turquoise,
       textTheme: _textTheme.copyWith(
-        headline1: _textStyle(AppColors.deepBlue, 24),
+        headline1: _textStyle(AppColors.snowWhite, 24),
         headline2: _textStyle(AppColors.snowWhite, 18),
         headline3: _textStyle(AppColors.headline3Dark, 16),
         headline4: _textStyle(AppColors.headline4Dark, 24),
@@ -25,7 +25,7 @@ class FilmsAppTheme {
         headline6: _textStyle(AppColors.fluffyWhite, 18),
         subtitle1: _textStyle(AppColors.sunYellow, 18),
         subtitle2: _textStyle(AppColors.subtitle2Dark, 14),
-        bodyText1: _textStyle(AppColors.bodyText1Dark, 14),
+        bodyText1: _textStyle(AppColors.bodyText1Dark, 18),
         bodyText2: _textStyle(AppColors.sunYellow, 24),
       ),
     );
@@ -52,9 +52,9 @@ class FilmsAppTheme {
           headline4: _textStyle(AppColors.headline4Light, 24),
           headline5: _textStyle(AppColors.sunYellow, 18),
           headline6: _textStyle(AppColors.fluffyWhite, 18),
-          subtitle1: _textStyle(AppColors.paleGreenYellow, 18),
-          subtitle2: _textStyle(AppColors.subtitle2Light, 14),
-          bodyText1: _textStyle(AppColors.bodyText1Light, 14),
+          subtitle1: _textStyle(AppColors.sunYellow, 18),
+          subtitle2: _textStyle(AppColors.bodyText1Light, 14),
+          bodyText1: _textStyle(AppColors.bodyText1Light, 18),
           bodyText2: _textStyle(AppColors.sunYellow, 24),
         ));
   }

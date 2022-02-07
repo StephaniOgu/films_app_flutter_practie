@@ -12,7 +12,6 @@ class FilmsLocalizations {
   static String get errorTitle => 'Sorry, something went wrong :(';
   static String get noResults => 'No such results';
 
-
   static String get filmListScreenTitle => '';
   static String get filmListScreenHintText => 'Search film';
 
@@ -30,6 +29,9 @@ class FilmsLocalizations {
   static String get actorDetailsAbout => 'About';
 
   static String get seeMoreBtnText => 'See more';
+
+  static String get usersFeedback => 'Users feedback:';
+  static String get actorsSubtitle => 'Actors';
 }
 
 class FlutterBlocLocalizationsDelegate

@@ -28,13 +28,12 @@ class FilmDetailsCubit extends Cubit<FilmDetailsBaseState> {
   final ActorsRepository actorsRepository;
 
   void loadFilmInfo() async {
-    // try {
+    try {
       emit(LoadingFilmDetailsState());
       final actorsList = await actorsRepository.getActorsListByFilm(filmId: film.id);
       emit(LoadedFilmDetailsState(film: film, actorList: actorsList));
-    //
-    // } catch (e) {
-    //   emit(ErrorFilmDetailsState(error: e.toString()));
-    // }
+    } catch (e) {
+      emit(ErrorFilmDetailsState(error: e.toString()));
+    }
   }
 }
