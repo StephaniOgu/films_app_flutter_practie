@@ -9,7 +9,11 @@ class ActorsRepository {
 
   Future<List<FilmStaffMember>> getActorsListByFilm({required filmId}) async {
     List<FilmStaffMember> staffList = await _getAllFilmStaffList(filmId);
-    return _getActorsList(staffList);
+    if(staffList.isNotEmpty){
+      return _getActorsList(staffList);
+    }else{
+      return [];
+    }
   }
 
   List<FilmStaffMember> _getActorsList(List<FilmStaffMember> staffList) {

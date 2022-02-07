@@ -41,7 +41,7 @@ class FilmsRepository {
           overview: json['overview'].toString(),
           usersFeedback: json['vote_average'].toString(),
           urlImage: '${json['poster_path']}'
-                  .contains('w185null')
+                  .contains('null')
               ? 'https://www.farmingtonlibraries.org/sites/default/files/2021-07/Movie%20Night.png'
               : 'https://image.tmdb.org/t/p/w185${json['poster_path']}',
         ),
