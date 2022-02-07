@@ -1,6 +1,6 @@
-part of '../cubit/films_list_cubit.dart';
+part of '../cubit/actors_cubit.dart';
 
-class LoadingActorListState extends ActorBaseState {
+class LoadingActorDetailsState extends ActorDetailsBaseState {
   @override
   List<Object> get props => [];
 }

@@ -1,23 +1,28 @@
 import 'package:films_app_practie/data/models/film.dart';
 import 'package:films_app_practie/domain/films_list/cubit/films_list_cubit.dart';
 import 'package:films_app_practie/localisation.dart';
+import 'package:films_app_practie/presentation/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MoviesPage extends StatefulWidget {
-  const MoviesPage({Key? key}) : super(key: key);
+class FilmsListPage extends StatefulWidget {
+  const FilmsListPage({Key? key, required this.onFilmTap}) : super(key: key);
+
+  final void Function(Film film) onFilmTap;
 
   @override
-  _MoviesPageState createState() => _MoviesPageState();
+  _FilmsListPageState createState() => _FilmsListPageState();
 }
 
-class _MoviesPageState extends State<MoviesPage> {
+class _FilmsListPageState extends State<FilmsListPage> {
+  late final Film? selectedFilm;
+
   late int _pageNumber;
   late String? _query;
-  late bool _isLast;
+  late List<Film>? _films;
 
-  late List<Widget> _filmsListNavigation;
+ late PageStorageKey _key;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +55,11 @@ class _MoviesPageState extends State<MoviesPage> {
           hintStyle: Theme.of(context).textTheme.headline5,
         ),
         onSubmitted: (query) async {
-          context
-              .read<FilmsListCubit>()
-              .searchFilms(page: 1, query: query);
+          if(query==''){
+            context.read<FilmsListCubit>().loadFilmsList(page: 1);
+          } else{
+            context.read<FilmsListCubit>().loadFilmsList(page: 1, query: query);
+          }
         },
       ),
     );
@@ -63,16 +70,15 @@ class _MoviesPageState extends State<MoviesPage> {
       listener: (context, state) {},
       builder: (context, state) {
         if (state is LoadingFilmsListState) {
-          return _buildLoadingScreen();
+          return buildLoadingScreen();
         } else if (state is ErrorFilmsListState) {
           return _buildErrorScreen(state);
         } else if (state is LoadedFilmsListState) {
-          final movies = state.films;
-          _isLast = state.isLast;
+          _films = state.films;
           _query = state.query;
           _pageNumber = state.page;
-          _filmsListNavigation = _getNavigation();
-          return _buildLoadedScreen(movies!);
+          _key = PageStorageKey(_query);
+          return _buildLoadedScreen();
         } else {
           return Container();
         }
@@ -80,27 +86,24 @@ class _MoviesPageState extends State<MoviesPage> {
     );
   }
 
-  Widget _buildLoadingScreen() {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
   Widget _buildErrorScreen(ErrorFilmsListState state) {
+    var errorText = state.error == FilmsLocalizations.noResults
+        ? FilmsLocalizations.noResults
+        : FilmsLocalizations.errorTitle;
     return Center(
         child: Text(
-      FilmsLocalizations.errorTitle,
+      errorText,
       style: Theme.of(context).textTheme.bodyText1,
     ));
   }
 
-  Widget _buildLoadedScreen(List<Film> movies) {
+  Widget _buildLoadedScreen() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildScreenTitle(),
         Expanded(
-          child: _buildFilmsList(movies),
+          child: _buildFilmsList(),
         ),
       ],
     );
@@ -116,27 +119,38 @@ class _MoviesPageState extends State<MoviesPage> {
     );
   }
 
-  Widget _buildFilmsList(List<Film> movies) {
-    return ListView.builder(
-      itemCount: movies.length + 1,
-      itemBuilder: (context, index) => _buildFilmItem(movies, index),
+  Widget _buildFilmsList() {
+    return NotificationListener<ScrollEndNotification>(
+      onNotification: (scrollEnd) {
+        if (scrollEnd.metrics.atEdge && scrollEnd.metrics.pixels != 0) {
+          context
+              .read<FilmsListCubit>()
+              .loadFilmsList(page: _pageNumber + 1, query: _query);
+        }
+        return true;
+      },
+      child: ListView.builder(
+        key: _key,
+        itemCount: _films!.length,
+        itemBuilder: (context, index) => _buildFilmItem(index),
+      ),
     );
   }
 
-  Widget _buildFilmItem(List<Film> films, int index) {
-    if (index < films.length) {
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Stack(
-          children: [
-            _buildFilmCard(films[index]),
-            _buildFilmImage(films[index]),
-          ],
+  Widget _buildFilmItem(int index) {
+    return GestureDetector(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              _buildFilmCard(_films![index]),
+              _buildFilmImage(_films![index]),
+            ],
+          ),
         ),
-      );
-    } else {
-      return _buildFilmsListNavigation();
-    }
+        onTap: () {
+          widget.onFilmTap(_films![index]);
+        });
   }
 
   Widget _buildFilmCard(Film film) {
@@ -206,68 +220,5 @@ class _MoviesPageState extends State<MoviesPage> {
         height: 150,
       ),
     );
-  }
-
-  Widget _buildFilmsListNavigation() {
-    List<Widget> rowContaining = _filmsListNavigation;
-    if (_pageNumber == 1) {
-      rowContaining[0] = const SizedBox(width: 60);
-    } if (_isLast == true) {
-      rowContaining[rowContaining.length -1] = const SizedBox(width: 60);
-    }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: rowContaining,
-    );
-  }
-
-  _buildPreviewPageBtn() {
-    return IconButton(
-      icon: const Icon(Icons.navigate_before),
-      color: Theme.of(context).splashColor,
-      onPressed: () {
-        context.read<FilmsListCubit>().searchFilms(page: _pageNumber - 1, query: _query);
-      },
-    );
-  }
-
-  Widget _buildPageNumber() {
-    return BlocConsumer<FilmsListCubit, FilmsListBaseState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-                alignment: Alignment.center,
-                width: 60,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).splashColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(5))),
-                child: Text(
-                  '$_pageNumber',
-                  style: Theme.of(context).textTheme.headline2,
-                )),
-          );
-        });
-  }
-
-  _buildNextPageBtn() {
-    return IconButton(
-      icon: const Icon(Icons.navigate_next),
-      color: Theme.of(context).splashColor,
-      onPressed: () {
-        context.read<FilmsListCubit>().searchFilms(page: _pageNumber + 1, query: _query);
-      },
-    );
-  }
-
-  List<Widget> _getNavigation(){
-    return [
-      _buildPreviewPageBtn(),
-      _buildPageNumber(),
-      _buildNextPageBtn(),
-    ];
   }
 }

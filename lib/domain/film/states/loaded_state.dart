@@ -1,8 +1,8 @@
-part of '../cubit/films_list_cubit.dart';
+part of '../cubit/film_details_cubit.dart';
 
 
-class LoadedFilmState extends FilmBaseState {
-  LoadedFilmState({required this.film, this.actorList});
+class LoadedFilmDetailsState extends FilmDetailsBaseState {
+  LoadedFilmDetailsState({required this.film, this.actorList});
 
   final Film film;
   final List<FilmStaffMember>? actorList;

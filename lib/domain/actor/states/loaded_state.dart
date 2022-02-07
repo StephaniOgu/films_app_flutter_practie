@@ -1,8 +1,8 @@
-part of '../cubit/films_list_cubit.dart';
+part of '../cubit/actors_cubit.dart';
 
 
-class LoadedActorListState extends ActorBaseState {
-  LoadedActorListState({ required this.actor});
+class LoadedActorDetailsState extends ActorDetailsBaseState {
+  LoadedActorDetailsState({ required this.actor});
 
   final FilmStaffMember actor;
 

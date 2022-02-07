@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:films_app_practie/data/models/actor.dart';
 import 'package:films_app_practie/data/models/film.dart';
 import 'package:films_app_practie/data/repositories/actors_repository.dart';
+import 'package:films_app_practie/domain/router/cubit/router_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
@@ -16,11 +16,11 @@ part '../states/loaded_state.dart';
 
 part '../states/loading_state.dart';
 
-class FilmsCubit extends Cubit<FilmBaseState> {
-  FilmsCubit({
+class FilmDetailsCubit extends Cubit<FilmDetailsBaseState> {
+  FilmDetailsCubit({
     required this.film,
     required this.actorsRepository,
-  }) : super(InitialFilmState()) {
+  }) : super(InitialFilmDetailsState()) {
     loadFilmInfo();
   }
 
@@ -28,12 +28,13 @@ class FilmsCubit extends Cubit<FilmBaseState> {
   final ActorsRepository actorsRepository;
 
   void loadFilmInfo() async {
-    try {
-      emit(LoadingFilmState());
+    // try {
+      emit(LoadingFilmDetailsState());
       final actorsList = await actorsRepository.getActorsListByFilm(filmId: film.id);
-      emit(LoadedFilmState(film: film, actorList: actorsList));
-    } catch (e) {
-      emit(ErrorFilmState(error: e.toString()));
-    }
+      emit(LoadedFilmDetailsState(film: film, actorList: actorsList));
+    //
+    // } catch (e) {
+    //   emit(ErrorFilmDetailsState(error: e.toString()));
+    // }
   }
 }

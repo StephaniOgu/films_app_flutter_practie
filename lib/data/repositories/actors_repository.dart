@@ -3,20 +3,19 @@ import 'package:films_app_practie/data/models/actor.dart';
 import 'package:films_app_practie/data/repositories/values_repository.dart';
 
 class ActorsRepository {
-  ActorsRepository({
-    required this.client,
-  });
+  ActorsRepository();
 
-  final Dio client;
+  Dio client = Dio();
 
   Future<List<FilmStaffMember>> getActorsListByFilm({required filmId}) async {
-    return _getActorsList(await _getAllFilmStaffList(filmId));
+    List<FilmStaffMember> staffList = await _getAllFilmStaffList(filmId);
+    return _getActorsList(staffList);
   }
 
   List<FilmStaffMember> _getActorsList(List<FilmStaffMember> staffList) {
-    for (var staffMember in staffList) {
-      if (staffMember.position != 'Acting') {
-        staffList.remove(staffMember);
+    for(int i = 0; i<staffList.length; i++){
+      if (staffList[i].position != 'Acting') {
+        staffList.removeAt(i);
       }
     }
     return staffList;
@@ -29,16 +28,14 @@ class ActorsRepository {
       final response = await client.get(url);
 
       return List<FilmStaffMember>.of(
-        response.data['results'].map<FilmStaffMember>(
+        response.data['cast'].map<FilmStaffMember>(
               (json) => FilmStaffMember(
-            id: json['id'],
-            name: json['name'],
-            gender: json['gender'],
-            birthday: json['birthday'],
-            placeOfBirth: json['place_of_birth'],
-            about: json['biography'],
-            urlImage: 'https://image.tmdb.org/t/p/w185${json['profile_path']}',
-            position: json['known_for_department'],
+            id: json['id'].toString(),
+            name: json['name'].toString(),
+            gender: json['gender'].toString(),
+            character: json['character'].toString(),
+            urlImage: 'https://image.tmdb.org/t/p/w185${json['profile_path']}'.toString(),
+            position: json['known_for_department'].toString(),
           ),
         ),
       );
@@ -59,9 +56,7 @@ class ActorsRepository {
                 id: json['id'],
                 name: json['name'],
                 gender: json['gender'],
-                birthday: json['birthday'],
-                placeOfBirth: json['place_of_birth'],
-                about: json['biography'],
+                character: json['character'],
                 urlImage: 'https://image.tmdb.org/t/p/w185${json['profile_path']}',
                 position: json['known_for_department'],
           ),

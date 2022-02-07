@@ -1,8 +1,8 @@
-part of '../cubit/films_list_cubit.dart';
+part of '../cubit/film_details_cubit.dart';
 
 
-class ErrorFilmState extends FilmBaseState {
-  ErrorFilmState({required this.error});
+class ErrorFilmDetailsState extends FilmDetailsBaseState {
+  ErrorFilmDetailsState({required this.error});
 
   final String error;
 

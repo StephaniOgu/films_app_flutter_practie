@@ -7,9 +7,7 @@ class FilmStaffMember extends Equatable {
     required this.id,
     required this.name,
     required this.gender,
-    required this.birthday,
-    required this.placeOfBirth,
-    required this.about,
+    required this.character,
     required this.urlImage,
     required this.position,
   });
@@ -17,9 +15,7 @@ class FilmStaffMember extends Equatable {
   final String id;
   final String name;
   final String gender;
-  final String birthday;
-  final String placeOfBirth;
-  final String about;
+  final String character;
   final String urlImage;
   final String position;
 
@@ -29,10 +25,7 @@ class FilmStaffMember extends Equatable {
         id,
         name,
         gender,
-        birthday,
-        birthday,
-        placeOfBirth,
-        about,
+        character,
         urlImage,
       ];
 }
