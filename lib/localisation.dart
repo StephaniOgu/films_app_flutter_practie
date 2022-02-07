@@ -10,6 +10,8 @@ class FilmsLocalizations {
     );
   }
   static String get errorTitle => 'Sorry, something went wrong :(';
+  static String get noResults => 'No such results';
+
 
   static String get filmListScreenTitle => '';
   static String get filmListScreenHintText => 'Search film';

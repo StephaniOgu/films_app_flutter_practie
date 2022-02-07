@@ -1,7 +1,7 @@
-part of '../cubit/films_list_cubit.dart';
+part of '../cubit/actors_cubit.dart';
 
-class ErrorActorState extends ActorBaseState {
-  ErrorActorState({required this.error});
+class ErrorActorDetailsState extends ActorDetailsBaseState {
+  ErrorActorDetailsState({required this.error});
 
   final String error;
 

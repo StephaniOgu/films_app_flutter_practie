@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:films_app_practie/data/models/film.dart';
 import 'package:films_app_practie/data/repositories/films_repository.dart';
+import 'package:films_app_practie/domain/router/cubit/router_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
+
+import '../../../localisation.dart';
 
 part '../states/base_film_state.dart';
 
@@ -16,42 +18,46 @@ part '../states/loaded_state.dart';
 part '../states/loading_state.dart';
 
 class FilmsListCubit extends Cubit<FilmsListBaseState> {
-
   FilmsListCubit({required this.filmsRepository})
       : super(InitialFilmsListState()) {
     loadFilmsList(page: 1);
   }
 
+  List<Film> _filmList = [];
+
   final FilmsRepository filmsRepository;
 
-  void loadFilmsList({required int page}) async {
+  void loadFilmsList({required int page, String? query}) async {
     try {
       emit(LoadingFilmsListState());
-      final films = await filmsRepository.getFilms(page: page);
-      var isLastPage = await _isPageLast(page, null);
-      emit(LoadedFilmsListState(films: films, page:page, isLast: isLastPage));
+      if (page == 1) {
+        _filmList = [];
+      }
+      List<Film> films =
+          await filmsRepository.getFilms(searchQuery: query, page: page);
+      for (var element in films) {
+        _filmList.add(element);
+      }
+      if (_filmList.isEmpty) {
+        emit(ErrorFilmsListState(error: FilmsLocalizations.noResults));
+        return;
+      }
+      emit(LoadedFilmsListState(films: _filmList, page: page, query: query));
     } catch (e) {
       emit(ErrorFilmsListState(error: e.toString()));
     }
   }
 
-  void searchFilms({String? query, required int page}) async {
+  Future<bool> _isPageLast({required int currentPage, String? query}) async {
     try {
-      emit(LoadingFilmsListState());
-      final films = await filmsRepository.getFilms(searchQuery: query, page: page);
-      var isLastPage = await _isPageLast(page, query);
-      emit(LoadedFilmsListState(films: films, page: page, isLast: isLastPage, query: query));
-    } catch (e) {
-      loadFilmsList(page: page);
-    }
-  }
-
-  Future<bool> _isPageLast(int currentPage, String? query)async {
-    try{
-      await filmsRepository.getFilms(page: currentPage+1, searchQuery: query);
-      return false;
-    }catch (ex){
+      var films = await filmsRepository.getFilms(
+          page: currentPage + 1, searchQuery: query);
+      if (films.isNotEmpty) {
+        return false;
+      }
+    } catch (ex) {
       return true;
     }
+    return true;
   }
 }

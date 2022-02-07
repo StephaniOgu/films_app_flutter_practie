@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:films_app_practie/data/models/actor.dart';
 import 'package:films_app_practie/data/repositories/actors_repository.dart';
+import 'package:films_app_practie/domain/router/cubit/router_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
@@ -15,11 +15,11 @@ part '../states/loaded_state.dart';
 
 part '../states/loading_state.dart';
 
-class ActorCubit extends Cubit<ActorBaseState> {
+class ActorCubit extends Cubit<ActorDetailsBaseState> {
   ActorCubit({
     required this.actorsRepository,
     required this.actorId,
-  }) : super(InitialActorListState()) {
+  }) : super(InitialActorDetailsState()) {
     loadActorInfo(actorId);
   }
 
@@ -28,11 +28,11 @@ class ActorCubit extends Cubit<ActorBaseState> {
 
   void loadActorInfo(String actorId) async {
     try {
-      emit(LoadingActorListState());
+      emit(LoadingActorDetailsState());
       final actor = await actorsRepository.getActorInfo(actorId);
-      emit(LoadedActorListState(actor: actor));
+      emit(LoadedActorDetailsState(actor: actor));
     } catch (e) {
-      emit(ErrorActorState(error: e.toString()));
+      emit(ErrorActorDetailsState(error: e.toString()));
     }
   }
 }

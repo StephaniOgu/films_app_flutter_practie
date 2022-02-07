@@ -1,7 +1,7 @@
-part of '../cubit/films_list_cubit.dart';
+part of '../cubit/actors_cubit.dart';
 
 @immutable
-abstract class ActorBaseState extends Equatable {}
+class ActorDetailsBaseState extends RouterState {}
 
 
 
