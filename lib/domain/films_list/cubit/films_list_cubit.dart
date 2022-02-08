@@ -47,17 +47,4 @@ class FilmsListCubit extends Cubit<FilmsListBaseState> {
       emit(ErrorFilmsListState(error: e.toString()));
     }
   }
-
-  Future<bool> _isPageLast({required int currentPage, String? query}) async {
-    try {
-      var films = await filmsRepository.getFilms(
-          page: currentPage + 1, searchQuery: query);
-      if (films.isNotEmpty) {
-        return false;
-      }
-    } catch (ex) {
-      return true;
-    }
-    return true;
-  }
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/models/actor.dart';
+import 'package:films_app_practie/data/models/film_staff_member.dart';
 import 'package:films_app_practie/data/repositories/values_repository.dart';
 
 class ActorsRepository {
@@ -9,15 +10,15 @@ class ActorsRepository {
 
   Future<List<FilmStaffMember>> getActorsListByFilm({required filmId}) async {
     List<FilmStaffMember> staffList = await _getAllFilmStaffList(filmId);
-    if(staffList.isNotEmpty){
+    if (staffList.isNotEmpty) {
       return _getActorsList(staffList);
-    }else{
+    } else {
       return [];
     }
   }
 
   List<FilmStaffMember> _getActorsList(List<FilmStaffMember> staffList) {
-    for(int i = 0; i<staffList.length; i++){
+    for (int i = 0; i < staffList.length; i++) {
       if (staffList[i].position != 'Acting') {
         staffList.removeAt(i);
       }
@@ -33,12 +34,16 @@ class ActorsRepository {
 
       return List<FilmStaffMember>.of(
         response.data['cast'].map<FilmStaffMember>(
-              (json) => FilmStaffMember(
+          (json) => FilmStaffMember(
             id: json['id'].toString(),
             name: json['name'].toString(),
-            gender: json['gender'].toString(),
             character: json['character'].toString(),
-            urlImage: 'https://image.tmdb.org/t/p/w185${json['profile_path']}'.toString(),
+            urlImage: '${json['profile_path']}'.contains('null') &&
+                    '${json['gender']}' == '1'
+                ? 'https://t3.ftcdn.net/jpg/01/81/15/58/240_F_181155874_1SysdscU5EWcCri5ZTe97bhz1PCdQE7H.jpg'
+                : '${json['profile_path']}'.contains('null')
+                    ? 'https://www.meme-arsenal.com/memes/dc69087c94cb6ec44f899407d77a2839.jpg'
+                    : 'https://image.tmdb.org/t/p/w185${json['profile_path']}',
             position: json['known_for_department'].toString(),
           ),
         ),
@@ -48,26 +53,25 @@ class ActorsRepository {
     }
   }
 
-  Future<FilmStaffMember> getActorInfo(String actorId) async {
+  Future<Actor> getActorInfo(String actorId) async {
     try {
       var url =
           '${ValuesRepository.domainName}/person/$actorId?api_key=${ValuesRepository.apiKey}&language=en-US';
       final response = await client.get(url);
 
-      final actors = List<FilmStaffMember>.of(
-        response.data['results'].map<FilmStaffMember>(
-              (json) => FilmStaffMember(
-                id: json['id'],
-                name: json['name'],
-                gender: json['gender'],
-                character: json['character'],
-                urlImage: 'https://image.tmdb.org/t/p/w185${json['profile_path']}',
-                position: json['known_for_department'],
-          ),
-        ),
+      return Actor(
+        id: response.data['id'].toString(),
+        name: response.data['name'],
+        gender: response.data['gender'] == '1'.toString() ? 'Female' : 'Male',
+        about: response.data['biography'],
+        placeOfBirth: response.data['place_of_birth'],
+        urlImage: response.data['profile_path'] == null &&
+                response.data['gender'].toString() == '1'
+            ? 'https://t3.ftcdn.net/jpg/01/81/15/58/240_F_181155874_1SysdscU5EWcCri5ZTe97bhz1PCdQE7H.jpg'
+            : response.data['profile_path']== null
+                ? 'https://www.meme-arsenal.com/memes/dc69087c94cb6ec44f899407d77a2839.jpg'
+                : 'https://image.tmdb.org/t/p/w185${response.data['profile_path']}',
       );
-
-      return actors[0];
     } catch (e) {
       rethrow;
     }

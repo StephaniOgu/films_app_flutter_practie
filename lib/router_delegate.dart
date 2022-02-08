@@ -2,12 +2,11 @@ import 'dart:async';
 import 'package:films_app_practie/presentation/screens/actor_details.dart';
 import 'package:films_app_practie/presentation/screens/film_details.dart';
 import 'package:films_app_practie/presentation/screens/films_list_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'data/models/actor.dart';
 import 'data/models/film.dart';
+import 'data/models/film_staff_member.dart';
 import 'data/repositories/actors_repository.dart';
 import 'data/repositories/films_repository.dart';
 import 'domain/actor/cubit/actors_cubit.dart';
@@ -89,10 +88,10 @@ class AppRouterDelegate extends RouterDelegate<String>
     notifyListeners();
   }
 
-  BlocProvider<ActorCubit> _buildActorDetailsBlocProvider(
+  BlocProvider<ActorDetailsCubit> _buildActorDetailsBlocProvider(
       FilmStaffMember? actor) {
-    return BlocProvider<ActorCubit>(
-      create: (context) => ActorCubit(
+    return BlocProvider<ActorDetailsCubit>(
+      create: (context) => ActorDetailsCubit(
         actorsRepository: ActorsRepository(),
         actorId: actor!.id,
       ),
