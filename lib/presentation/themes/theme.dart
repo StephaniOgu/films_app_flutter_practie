@@ -75,7 +75,7 @@ class FilmsAppTheme {
       color: appBarColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(70),
+          bottom: Radius.circular(50),
         ),
       ),
       actionsIconTheme: IconThemeData(
