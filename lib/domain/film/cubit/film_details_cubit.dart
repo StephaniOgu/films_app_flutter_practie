@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:films_app_practie/data/models/actor.dart';
 import 'package:films_app_practie/data/models/film.dart';
+import 'package:films_app_practie/data/models/film_staff_member.dart';
 import 'package:films_app_practie/data/repositories/actors_repository.dart';
 import 'package:films_app_practie/domain/router/cubit/router_cubit.dart';
 import 'package:flutter/cupertino.dart';

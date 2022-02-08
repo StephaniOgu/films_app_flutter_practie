@@ -15,8 +15,8 @@ part '../states/loaded_state.dart';
 
 part '../states/loading_state.dart';
 
-class ActorCubit extends Cubit<ActorDetailsBaseState> {
-  ActorCubit({
+class ActorDetailsCubit extends Cubit<ActorDetailsBaseState> {
+  ActorDetailsCubit({
     required this.actorsRepository,
     required this.actorId,
   }) : super(InitialActorDetailsState()) {
@@ -27,12 +27,12 @@ class ActorCubit extends Cubit<ActorDetailsBaseState> {
   final String actorId;
 
   void loadActorInfo(String actorId) async {
-    try {
+    // try {
       emit(LoadingActorDetailsState());
       final actor = await actorsRepository.getActorInfo(actorId);
       emit(LoadedActorDetailsState(actor: actor));
-    } catch (e) {
-      emit(ErrorActorDetailsState(error: e.toString()));
-    }
+    // } catch (e) {
+    //   emit(ErrorActorDetailsState(error: e.toString()));
+    // }
   }
 }
