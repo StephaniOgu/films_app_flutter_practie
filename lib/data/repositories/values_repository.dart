@@ -6,4 +6,7 @@ class ValuesRepository {
   //   apiKey get parameter API_KEY from sys env var [flutterPracticeFilmsKey]
   //   Expected value: 'd4042a814f7ec085951eebff4536a5c6';
    static String get apiKey => const String.fromEnvironment('API_KEY');
+
+   //Configurations
+   //--dart-define API_KEY=%flutterPracticeFilmsKey% --dart-define API_DOMAIN=%flutterPracticeFilmsApi%
 }

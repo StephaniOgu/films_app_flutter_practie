@@ -2,7 +2,6 @@ import 'package:films_app_practie/data/models/film.dart';
 import 'package:films_app_practie/domain/films_list/cubit/films_list_cubit.dart';
 import 'package:films_app_practie/localisation.dart';
 import 'package:films_app_practie/presentation/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
