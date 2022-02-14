@@ -2,7 +2,6 @@ import 'package:films_app_practie/presentation/themes/theme.dart';
 import 'package:films_app_practie/router_delegate.dart';
 import 'package:flutter/material.dart';
 
-
 void main() {
   runApp(const FilmsApp());
 }
@@ -17,7 +16,6 @@ class FilmsApp extends StatefulWidget {
 }
 
 class _FilmsAppState extends State<FilmsApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

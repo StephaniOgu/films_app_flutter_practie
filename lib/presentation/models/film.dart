@@ -2,21 +2,21 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 @immutable
-class FilmDataModel extends Equatable {
-  const FilmDataModel({
+class FilmUIModel extends Equatable {
+  const FilmUIModel({
     required this.id,
     required this.title,
-    required this.releaseDate,
-    required this.usersFeedback,
-    required this.urlImage,
     required this.overview,
+    required this.usersFeedback,
+    required this.releaseDate,
+    required this.urlImage,
   });
 
   final String id;
   final String title;
   final String releaseDate;
-  final String overview;
   final String usersFeedback;
+  final String overview;
   final String urlImage;
 
   @override
@@ -24,8 +24,8 @@ class FilmDataModel extends Equatable {
         id,
         title,
         releaseDate,
-        overview,
         usersFeedback,
+        overview,
         urlImage,
       ];
 }

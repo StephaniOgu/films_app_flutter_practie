@@ -3,11 +3,12 @@ import 'package:films_app_practie/data/models/film.dart';
 import 'package:films_app_practie/data/repositories/values_repository.dart';
 
 class FilmsRepository {
-  FilmsRepository();
+  FilmsRepository({required this.client});
 
-  Dio client = Dio();
+  Dio client;
 
-  Future<List<Film>> getFilms({String? searchQuery, required int page}) async {
+  Future<List<FilmDataModel>> getFilms(
+      {String? searchQuery, required int page}) async {
     if (searchQuery == null) {
       try {
         final url =
@@ -31,21 +32,18 @@ class FilmsRepository {
     }
   }
 
-  List<Film> getFilmsFromResponse(var response) {
-    return List<Film>.of(
-      response.data['results'].map<Film>(
-        (json) => Film(
-          id: json['id'].toString(),
-          title: json['title'].toString(),
-          releaseDate: json['release_date'].toString(),
-          overview: json['overview'].toString(),
-          usersFeedback: json['vote_average'].toString(),
-          urlImage: '${json['poster_path']}'
-                  .contains('null')
-              ? 'https://www.farmingtonlibraries.org/sites/default/files/2021-07/Movie%20Night.png'
-              : 'https://image.tmdb.org/t/p/w185${json['poster_path']}',
-        ),
-      ),
-    );
+  List<FilmDataModel> getFilmsFromResponse(var response) {
+    return response.data['results']
+        .map<FilmDataModel>(
+          (json) => FilmDataModel(
+            id: json['id'].toString(),
+            title: json['title'].toString(),
+            releaseDate: json['release_date'].toString(),
+            overview: json['overview'].toString(),
+            usersFeedback: json['vote_average'].toString(),
+            urlImage: 'https://image.tmdb.org/t/p/w185${json['poster_path']}',
+          ),
+        )
+        .toList();
   }
 }

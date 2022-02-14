@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 @immutable
-class Actor extends Equatable {
-  const Actor({
+class ActorDataModel extends Equatable {
+  const ActorDataModel({
     required this.id,
     required this.name,
     required this.gender,
@@ -14,18 +14,18 @@ class Actor extends Equatable {
 
   final String id;
   final String name;
-  final String? gender;
-  final String? about;
-  final String? placeOfBirth;
+  final String gender;
+  final String about;
+  final String placeOfBirth;
   final String urlImage;
 
   @override
   List<Object> get props => [
         id,
         name,
-        gender!,
-        about!,
-        placeOfBirth!,
+        gender,
+        about,
+        placeOfBirth,
         urlImage,
       ];
 }
