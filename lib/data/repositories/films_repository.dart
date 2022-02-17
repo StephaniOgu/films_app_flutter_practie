@@ -2,37 +2,30 @@ import 'package:dio/dio.dart';
 import 'package:films_app_practie/data/models/film.dart';
 import 'package:films_app_practie/data/repositories/values_repository.dart';
 
+
 class FilmsRepository {
   FilmsRepository({required this.client});
 
-  Dio client;
+  final Dio client;
 
   Future<List<FilmDataModel>> getFilms(
-      {String? searchQuery, required int page}) async {
-    if (searchQuery == null) {
-      try {
+      {String? searchQuery, required page}) async {
+    try {
+      if (searchQuery == null) {
         final url =
             '${ValuesRepository.domainName}/trending/movie/day?api_key=${ValuesRepository.apiKey}&page=$page';
-        final response = await client.get(url);
-
-        return getFilmsFromResponse(response);
-      } catch (e) {
-        rethrow;
-      }
-    } else {
-      try {
+        return _getFilmsFromResponse(await client.get(url));
+      } else {
         final url =
             '${ValuesRepository.domainName}/search/movie?api_key=${ValuesRepository.apiKey}&query=$searchQuery&page=$page';
-        final response = await client.get(url);
-
-        return getFilmsFromResponse(response);
-      } catch (e) {
-        rethrow;
+        return _getFilmsFromResponse(await client.get(url));
       }
+    } catch (e) {
+      rethrow;
     }
   }
 
-  List<FilmDataModel> getFilmsFromResponse(var response) {
+  List<FilmDataModel> _getFilmsFromResponse(var response) {
     return response.data['results']
         .map<FilmDataModel>(
           (json) => FilmDataModel(

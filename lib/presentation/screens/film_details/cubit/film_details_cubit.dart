@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:films_app_practie/data/repositories/actors_repository.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../data/mappers.dart';
 import '../../../models/film.dart';
@@ -22,19 +22,25 @@ part '../states/loading_state.dart';
 class FilmDetailsCubit extends Cubit<FilmDetailsBaseState> {
   FilmDetailsCubit({
     required this.film,
+    required this.actorsRepository
   }) : super(InitialFilmDetailsState()) {
     loadFilmInfo();
   }
 
   final FilmUIModel film;
+  final ActorsRepository actorsRepository;
 
   void loadFilmInfo() async {
     try {
       emit(LoadingFilmDetailsState());
-      final actorsList = await GetIt.instance<ActorsRepository>().getActorsListByFilm(filmId: film.id);
+      final actorsList = await actorsRepository.getActorsListByFilm(filmId: film.id);
       emit(LoadedFilmDetailsState(film: film, actorList: mapDataFilmStaffMemberListToUI(actorsList)));
     } catch (e) {
       emit(ErrorFilmDetailsState(error: e.toString()));
     }
+  }
+
+  launchURL({required String url}) async {
+    await launch(url);
   }
 }

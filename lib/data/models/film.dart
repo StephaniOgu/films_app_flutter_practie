@@ -7,9 +7,9 @@ class FilmDataModel extends Equatable {
     required this.id,
     required this.title,
     required this.releaseDate,
+    required this.overview,
     required this.usersFeedback,
     required this.urlImage,
-    required this.overview,
   });
 
   final String id;

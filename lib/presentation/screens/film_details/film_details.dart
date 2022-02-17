@@ -30,6 +30,9 @@ class _FilmsDetailsPageState extends State<FilmsDetailsPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.play_arrow),
         onPressed: () {
+          String url =
+              'https://www.youtube.com/results?search_query=${_film.title.replaceAll(' ', '_')}';
+          context.read<FilmDetailsCubit>().launchURL(url: url);
         },
       ),
     );

@@ -6,9 +6,9 @@ class FilmUIModel extends Equatable {
   const FilmUIModel({
     required this.id,
     required this.title,
-    required this.overview,
-    required this.usersFeedback,
     required this.releaseDate,
+    required this.usersFeedback,
+    required this.overview,
     required this.urlImage,
   });
 

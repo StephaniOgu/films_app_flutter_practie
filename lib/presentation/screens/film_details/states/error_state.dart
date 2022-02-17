@@ -7,5 +7,5 @@ class ErrorFilmDetailsState extends FilmDetailsBaseState {
   final String error;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [error];
 }

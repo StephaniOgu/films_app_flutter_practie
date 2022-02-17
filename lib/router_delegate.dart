@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
 import 'package:films_app_practie/presentation/models/film.dart';
 import 'package:films_app_practie/presentation/models/film_staff_member.dart';
 import 'package:films_app_practie/presentation/screens/actor_details/actor_details.dart';
@@ -17,7 +16,6 @@ import 'package:films_app_practie/presentation/screens/films_list/cubit/films_li
 
 class AppRouterDelegate extends RouterDelegate<String>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<String> {
-  Dio client = Dio();
 
   @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -27,16 +25,6 @@ class AppRouterDelegate extends RouterDelegate<String>
 
   @override
   Widget build(BuildContext context) {
-    if (!GetIt.I.isRegistered<ActorsRepository>()) {
-      GetIt.I.registerSingleton<ActorsRepository>(
-          ActorsRepository(client: client));
-    }
-
-    if (!GetIt.I.isRegistered<FilmsRepository>()) {
-      GetIt.I.registerSingleton<FilmsRepository>(
-          FilmsRepository(client: client));
-    }
-
     return Navigator(
       key: navigatorKey,
       pages: [
@@ -69,8 +57,8 @@ class AppRouterDelegate extends RouterDelegate<String>
 
   BlocProvider<FilmsListCubit> _buildFilmsListBlocProvider() {
     return BlocProvider<FilmsListCubit>(
-      create: (context) => FilmsListCubit(
-      ),
+      create: (context) =>
+          FilmsListCubit(filmsRepository: GetIt.I<FilmsRepository>()),
       child: FilmsListPage(
         onFilmTap: _onFilmTap,
       ),
@@ -88,6 +76,7 @@ class AppRouterDelegate extends RouterDelegate<String>
     return BlocProvider<FilmDetailsCubit>(
       create: (context) => FilmDetailsCubit(
         film: film,
+        actorsRepository: GetIt.I<ActorsRepository>(),
       ),
       child: FilmsDetailsPage(
         onActorTap: _onActorTap,
@@ -106,6 +95,7 @@ class AppRouterDelegate extends RouterDelegate<String>
     return BlocProvider<ActorDetailsCubit>(
       create: (context) => ActorDetailsCubit(
         actorId: actor!.id,
+        actorsRepository: GetIt.I.get<ActorsRepository>(),
       ),
       child: const ActorDetailsPage(),
     );

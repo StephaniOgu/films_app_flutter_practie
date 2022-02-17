@@ -4,7 +4,6 @@ import 'package:films_app_practie/data/models/film_staff_member.dart';
 import 'package:films_app_practie/data/repositories/values_repository.dart';
 
 class ActorsRepository {
-
   ActorsRepository({required this.client});
 
   Dio client;
@@ -13,21 +12,7 @@ class ActorsRepository {
       {required filmId}) async {
     List<FilmStaffMemberDataModel> staffList =
         await _getAllFilmStaffList(filmId);
-    if (staffList.isNotEmpty) {
-      return _getActorsList(staffList);
-    } else {
-      return List.empty();
-    }
-  }
-
-  List<FilmStaffMemberDataModel> _getActorsList(
-      List<FilmStaffMemberDataModel> staffList) {
-    for (int i = 0; i < staffList.length; i++) {
-      if (staffList[i].position != 'Acting') {
-        staffList.removeAt(i);
-      }
-    }
-    return staffList;
+    return staffList.where((element) => element.position == 'Acting').toList();
   }
 
   Future<List<FilmStaffMemberDataModel>> _getAllFilmStaffList(
@@ -61,7 +46,7 @@ class ActorsRepository {
           '${ValuesRepository.domainName}/person/$actorId?api_key=${ValuesRepository.apiKey}&language=en-US';
       final response = await client.get(url);
 
-      ActorDataModel actorDataModel = ActorDataModel(
+      return ActorDataModel(
         id: response.data['id'].toString(),
         name: response.data['name'].toString(),
         gender: response.data['gender'].toString(),
@@ -70,7 +55,6 @@ class ActorsRepository {
         urlImage:
             'https://image.tmdb.org/t/p/w185${response.data['profile_path']}',
       );
-      return actorDataModel;
     } catch (e) {
       rethrow;
     }

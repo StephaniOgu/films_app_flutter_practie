@@ -3,12 +3,13 @@ import 'package:flutter/cupertino.dart';
 
 @immutable
 class ActorUIModel extends Equatable {
-  const ActorUIModel(
-      {required this.name,
-      required this.about,
-      required this.placeOfBirth,
-      required this.urlImage,
-      required this.gender});
+  const ActorUIModel({
+    required this.name,
+    required this.gender,
+    required this.about,
+    required this.placeOfBirth,
+    required this.urlImage,
+  });
 
   final String name;
   final String gender;

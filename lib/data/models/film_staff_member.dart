@@ -23,6 +23,7 @@ class FilmStaffMemberDataModel extends Equatable {
   List<Object> get props => [
         id,
         name,
+        gender,
         character,
         urlImage,
         position,

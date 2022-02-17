@@ -5,6 +5,12 @@ import 'package:films_app_practie/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+
+
 class FilmsListPage extends StatefulWidget {
   const FilmsListPage({Key? key, required this.onFilmTap}) : super(key: key);
 
@@ -138,19 +144,19 @@ class _FilmsListPageState extends State<FilmsListPage> {
 
   Widget _buildFilmItem(int index) {
     return GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Stack(
-          children: [
-            _buildFilmCard(_films![index]),
-            _buildFilmImage(_films![index]),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              _buildFilmCard(_films![index]),
+              _buildFilmImage(_films![index]),
+            ],
+          ),
         ),
-      ),
-      onTap: () {
-        widget.onFilmTap(_films![index]);
-      },
-    );
+        onTap: () {
+          widget.onFilmTap(_films![index]);
+        },
+        onLongPress: () => _shareFilmInfo(index));
   }
 
   Widget _buildFilmCard(FilmUIModel film) {
@@ -211,5 +217,45 @@ class _FilmsListPageState extends State<FilmsListPage> {
         height: 150,
       ),
     );
+  }
+
+  _shareFilmInfo(int index) {
+    showGeneralDialog(
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0)),
+                title: Text(
+                  'Share',
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                content: IconButton(
+                  icon: const Icon(Icons.share_outlined),
+                  onPressed: () async {
+                    var film = _films![index];
+                    final uri = Uri.parse(film.urlImage);
+                    final response = await http.get(uri);
+                    final bytes = response.bodyBytes;
+                    final temp = await getTemporaryDirectory();
+                    final path = '${temp.path}/image.jpg';
+                    File(path).writeAsBytesSync(bytes);
+                    await Share.shareFiles([path], text: 'Title: ${film.title}\n, About:  ${film.overview}');
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
   }
 }
