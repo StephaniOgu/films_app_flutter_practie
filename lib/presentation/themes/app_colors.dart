@@ -28,6 +28,4 @@ class AppColors{
 
   static Color get bodyText1Dark => const Color.fromRGBO(198, 198, 200, 1);
   static Color get bodyText1Light => const Color.fromRGBO(124, 123, 126, 1);
-
-
 }

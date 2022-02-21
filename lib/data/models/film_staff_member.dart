@@ -2,48 +2,48 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 @immutable
-class ActorDataModel extends Equatable {
-  const ActorDataModel({
+class FilmStaffMemberDataModel extends Equatable {
+  const FilmStaffMemberDataModel({
     required this.id,
     required this.name,
     required this.gender,
-    required this.about,
-    required this.placeOfBirth,
+    required this.character,
     required this.urlImage,
+    required this.position,
   });
 
   final String id;
   final String name;
   final String gender;
-  final String about;
-  final String placeOfBirth;
+  final String character;
   final String urlImage;
+  final String position;
 
   @override
   List<Object> get props => [
         id,
         name,
         gender,
-        about,
-        placeOfBirth,
+        character,
         urlImage,
+        position,
       ];
 
-  ActorDataModel copyWith({
+  FilmStaffMemberDataModel copyWith({
     String? id,
     String? name,
     String? gender,
-    String? about,
-    String? placeOfBirth,
+    String? character,
     String? urlImage,
+    String? position,
   }) {
-    return ActorDataModel(
+    return FilmStaffMemberDataModel(
       id: id ?? this.id,
       name: name ?? this.name,
       gender: gender ?? this.gender,
-      about: about ?? this.about,
-      placeOfBirth: placeOfBirth ?? this.placeOfBirth,
+      character: character ?? this.character,
       urlImage: urlImage ?? this.urlImage,
+      position: position ?? this.position,
     );
   }
 }

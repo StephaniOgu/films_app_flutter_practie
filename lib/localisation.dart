@@ -32,6 +32,8 @@ class FilmsLocalizations {
 
   static String get usersFeedback => 'Users feedback:';
   static String get actorsSubtitle => 'Actors';
+  static String get overview => 'Overview';
+
 }
 
 class FlutterBlocLocalizationsDelegate
